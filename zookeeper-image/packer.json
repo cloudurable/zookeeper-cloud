@@ -22,18 +22,9 @@
           "ENV ZOO_DATA_DIR /opt/zookeeper/data/snapshots",
           "ENV ZOO_DATA_LOG_DIR /opt/zookeeper/data/transactions",
           "ENV ENSEMBLE ''",
-          "ENV JMXLOCALONLY true",
-          "ENV JMXDISABLE true",
-          "ENV JMXPORT ''",
-          "ENV JMXAUTH false",
-          "ENV JMXSSL false",
-          "ENV JMXLOG4J false",
-          "ENV SERVER_JVMFLAGS ''",
-          "ENV JVMFLAGS ''",
           "ENV ZOOCFGDIR /opt/zookeeper/conf",
           "ENV ZOOBINDIR /opt/zookeeper/bin",
           "ENV ZOOCFG zoo.cfg",
-          "ENV EXPOSE 2181 2888 3888",
           "ENTRYPOINT /opt/zookeeper/bin/run.sh"
         ]
     }
@@ -50,15 +41,10 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
-        "tag": "latest",
-        "force" : true
-      },       "docker-push",
-      {
-        "type": "docker-tag",
-        "repository": "cloudurable/zookeeper-image",
         "tag": "0.2",
         "force" : true
-      },      "docker-push"
+      },
+      "docker-push"
     ]
   ]
 }

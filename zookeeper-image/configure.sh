@@ -23,7 +23,7 @@ find opt/zookeeper/lib/ -name "*log4j*" | grep slf4j | xargs rm
 cp zookeeper-src/bin/*.sh opt/zookeeper/bin
 
 # Create the zookeeper config file
-tee opt/zookeeper/conf/zoo.cfg << END
+tee opt/zookeeper/conf/new_zoo.cfg << END
 
 dataDir=opt/zookeeper/data/snapshots
 dataLogDir=opt/zookeeper/data/transactions
@@ -39,6 +39,23 @@ cnxTimeout=20000
 minSessionTimeout=24000
 maxSessionTimeout=60000
 standaloneEnabled=true
+
+#ENSEMBLE0
+#ENSEMBLE1
+#ENSEMBLE2
+#ENSEMBLE3
+#ENSEMBLE4
+#ENSEMBLE5
+
+END
+
+tee opt/zookeeper/conf/zoo.cfg << END
+
+dataDir=opt/zookeeper/data/snapshots
+dataLogDir=opt/zookeeper/data/transactions
+clientPort=2181
+initLimit=5
+syncLimit=2
 
 #ENSEMBLE0
 #ENSEMBLE1
@@ -70,10 +87,10 @@ echo "Modifying config file \$CFG_FILE for auto purge"
 sed  -i  "s/autopurge.purgeInterval=12/autopurge.purgeInterval=\$ZOO_AUTO_PURGE_INTERVAL/g" \$CFG_FILE
 echo "Modifying config file \$CFG_FILE for auto purge retain count"
 sed  -i  "s/autopurge.snapRetainCount=5/autopurge.snapRetainCount=\$ZOO_AUTO_PURGE_SNAP_RETAIN_COUNT/g" \$CFG_FILE
-DATA_DIR=\$(echo $ZOO_DATA_DIR | sed 's/\//\\\//g')
+DATA_DIR=\$(echo \$ZOO_DATA_DIR | sed 's/\//\\\\\\//g')
 echo "Modifying config file \$CFG_FILE for data dir \$DATA_DIR"
 sed  -i  "s/dataDir=\/opt\/zookeeper\/data\/snapshots/dataDir=\$DATA_DIR/g" \$CFG_FILE
-DATA_LOG_DIR=\$(echo $ZOO_DATA_LOG_DIR | sed 's/\//\\\//g')
+DATA_LOG_DIR=\$(echo \$ZOO_DATA_LOG_DIR | sed 's/\//\\\\\\//g')
 echo "Modifying config file \$CFG_FILE for data log dir \$DATA_LOG_DIR"
 sed  -i  "s/dataLogDir=\/opt\/zookeeper\/data\/transactions/dataLogDir=\$DATA_LOG_DIR/g" \$CFG_FILE
 
