@@ -30,6 +30,14 @@ dataLogDir=opt/zookeeper/data/transactions
 clientPort=2181
 initLimit=5
 syncLimit=2
+autopurge.purgeInterval=12
+autopurge.snapRetainCount=5
+tickTime=5000
+maxClientCnxns=0
+#clientPortAddress=
+cnxTimeout=20000
+minSessionTimeout=24000
+maxSessionTimeout=50000
 
 #ENSEMBLE0
 #ENSEMBLE1
