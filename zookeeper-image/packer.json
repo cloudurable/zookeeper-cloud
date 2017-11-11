@@ -26,11 +26,13 @@
         "repository": "cloudurable/zookeeper-image",
         "tag": "0.1"
       },
+      "docker-push",
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
         "tag": "latest"
-      }
+      },
+      "docker-push"
     ]
   ]
 }
