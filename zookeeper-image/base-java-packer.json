@@ -1,0 +1,37 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "centos:7.4.1708",
+      "commit": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "opt",
+      "destination" : "/"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "provision/provision.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "cloudurable/base-java-centos",
+        "tag": "0.1"
+      },
+      {
+        "type": "docker-tag",
+        "repository": "cloudurable/base-java-centos",
+        "tag": "latest"
+      },
+      "docker-push"
+    ]
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "cloudurable/base-java-centos:0.1",
+      "commit": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "opt",
+      "destination" : "/"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "provision/provision.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "cloudurable/zookeeper-image",
+        "tag": "0.1"
+      },
+      {
+        "type": "docker-tag",
+        "repository": "cloudurable/zookeeper-image",
+        "tag": "latest"
+      }
+    ]
+  ]
+}
