@@ -6,3 +6,6 @@ docker ps -a | grep cloudurable/zookeeper-image | awk '{ print $1}' \
 
 docker images | grep cloudurable/zookeeper-image | awk '{ print $3}' \
     | xargs docker rmi -f
+
+docker images | grep none | awk '{ print $3}' \
+        | xargs docker rmi -f
