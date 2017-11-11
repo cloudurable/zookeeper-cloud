@@ -2,21 +2,47 @@
   "builders": [
     {
       "type": "docker",
-      "image": "cloudurable/base-java-centos:0.1",
-      "commit": true
+      "image": "cloudurable/base-java-centos:0.2",
+      "commit": true,
+      "changes": [
+          "ENV ZOO_CLIENT_PORT 2181",
+          "ENV ZOO_PEER_PORT 2888",
+          "ENV ZOO_LEADER_PORT 3888",
+          "ENV ZOO_MY_ID 1",
+          "ENV ZOO_TICK_TIME 5000",
+          "ENV ZOO_INIT_LIMIT 5",
+          "ENV ZOO_SYNC_LIMIT 2",
+          "ENV ZOO_MAX_CLIENT_CNXNS 60",
+          "ENV ZOO_MIN_SESSION_TIMEOUT 24000",
+          "ENV ZOO_MAX_SESSION_TIMEOUT 60000",
+          "ENV ZOO_STANDALONE_ENABLED true",
+          "ENV ZOO_CLIENT_PORT_ADDRESS ''",
+          "ENV ZOO_AUTO_PURGE_SNAP_RETAIN_COUNT=5",
+          "ENV ZOO_AUTO_PURGE_INTERVAL=12",
+          "ENV ZOO_DATA_DIR /opt/zookeeper/data/snapshots",
+          "ENV ZOO_DATA_LOG_DIR /opt/zookeeper/data/transactions",
+          "ENV ENSEMBLE ''",
+          "ENV JMXLOCALONLY true",
+          "ENV JMXDISABLE true",
+          "ENV JMXPORT ''",
+          "ENV JMXAUTH false",
+          "ENV JMXSSL false",
+          "ENV JMXLOG4J false",
+          "ENV SERVER_JVMFLAGS ''",
+          "ENV JVMFLAGS ''",
+          "ENV ZOOCFGDIR /opt/zookeeper/conf",
+          "ENV ZOOBINDIR /opt/zookeeper/bin",
+          "ENV ZOOCFG zoo.cfg",
+          "ENV EXPOSE 2181 2888 3888",
+          "ENTRYPOINT /opt/zookeeper/bin/run.sh"
+        ]
     }
   ],
   "provisioners": [
     {
       "type": "file",
-      "source": "opt",
-      "destination" : "/"
-    },
-    {
-      "type": "shell",
-      "scripts": [
-        "provision/provision.sh"
-      ]
+      "source": "opt/zookeeper",
+      "destination" : "/opt/"
     }
   ],
   "post-processors": [
@@ -24,15 +50,14 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
-        "tag": "0.1"
-      },
-      "docker-push",
+        "tag": "0.2"
+      },      "docker-push",
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
-        "tag": "latest"
-      },
-      "docker-push"
+        "tag": "latest",
+        "force" : true
+      },       "docker-push"
     ]
   ]
 }

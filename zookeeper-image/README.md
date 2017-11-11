@@ -91,6 +91,8 @@ packer build packer.json
 ## Snoop around
 ```sh
 docker run -it cloudurable/zookeeper-image:latest
+## We added an entrypoint so now you have to do this 
+docker run -it --entrypoint "/bin/bash"  cloudurable/zookeeper-image
 
 ```
 

@@ -19,7 +19,7 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/base-java-centos",
-        "tag": "0.1"
+        "tag": "0.2"
       },
       "docker-push",
       {
