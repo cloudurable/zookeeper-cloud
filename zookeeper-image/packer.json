@@ -50,14 +50,15 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
-        "tag": "0.2"
-      },      "docker-push",
+        "tag": "latest",
+        "force" : true
+      },       "docker-push",
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
-        "tag": "latest",
+        "tag": "0.2",
         "force" : true
-      },       "docker-push"
+      },      "docker-push"
     ]
   ]
 }
