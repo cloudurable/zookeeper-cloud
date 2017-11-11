@@ -13,6 +13,14 @@ docker run --name zookeeper \
 # Dev
 
 
+## Build base image
+```sh
+packer build base-java-packer.json
+```
+
+We build a base image which installs Java, updates the OS, etc.
+This is time consuming. We try to do it once. 
+
 ## Run packer
 ```sh
 packer build packer.json

@@ -44,7 +44,20 @@ tee opt/zookeeper/bin/run.sh << END
 #!/usr/bin/env bash
 set -e
 
+if [ -z "\$CLIENT_PORT" ]; then
+    export CLIENT_PORT=2181
+fi
+
+if [ -z "\$PEER_PORT" ]; then
+    export PEER_PORT=2888
+fi
+
+if [ -z "\$LEADER_PORT" ]; then
+    export LEADER_PORT=3888
+fi
+
 sed  -i  's/opt\/zookeeper/\/opt\/zookeeper/g' /opt/zookeeper/conf/zoo.cfg
+sed  -i  "s/clientPort=2181/clientPort=\$CLIENT_PORT/g" /opt/zookeeper/conf/zoo.cfg
 
 idx=0
 if env | grep -q ^ENSEMBLE=
@@ -52,8 +65,8 @@ then
   echo "ENSEMBLE SET \$ENSEMBLE"
   for server in \${ENSEMBLE//,/ }
   do
-    echo "#ENSEMBLE\${idx} changed to \$server"
-    sed -i "s/#ENSEMBLE\${idx}/\${server}:2888:3888/" /opt/zookeeper/conf/zoo.cfg
+    echo "#ENSEMBLE\${idx} changed to \${server}:\${PEER_PORT}:\${LEADER_PORT}"
+    sed -i "s/#ENSEMBLE\${idx}/\${server}:\${PEER_PORT}:\${LEADER_PORT}/" /opt/zookeeper/conf/zoo.cfg
    let "idx=idx+1"
   done
 else

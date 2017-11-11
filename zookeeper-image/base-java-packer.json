@@ -8,11 +8,6 @@
   ],
   "provisioners": [
     {
-      "type": "file",
-      "source": "opt",
-      "destination" : "/"
-    },
-    {
       "type": "shell",
       "scripts": [
         "provision/provision.sh"
@@ -26,6 +21,7 @@
         "repository": "cloudurable/base-java-centos",
         "tag": "0.1"
       },
+      "docker-push",
       {
         "type": "docker-tag",
         "repository": "cloudurable/base-java-centos",
