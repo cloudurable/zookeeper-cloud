@@ -28,6 +28,8 @@ tee opt/zookeeper/conf/zoo.cfg << END
 dataDir=opt/zookeeper/data/snapshots
 dataLogDir=opt/zookeeper/data/transactions
 clientPort=2181
+initLimit=5
+syncLimit=2
 
 #ENSEMBLE0
 #ENSEMBLE1
@@ -56,24 +58,37 @@ if [ -z "\$LEADER_PORT" ]; then
     export LEADER_PORT=3888
 fi
 
+if [ -z "\$MY_ID" ]; then
+    export MY_ID=1
+fi
+
 sed  -i  's/opt\/zookeeper/\/opt\/zookeeper/g' /opt/zookeeper/conf/zoo.cfg
 sed  -i  "s/clientPort=2181/clientPort=\$CLIENT_PORT/g" /opt/zookeeper/conf/zoo.cfg
 
-idx=0
+idx=1
 if env | grep -q ^ENSEMBLE=
 then
   echo "ENSEMBLE SET \$ENSEMBLE"
   for server in \${ENSEMBLE//,/ }
   do
     echo "#ENSEMBLE\${idx} changed to \${server}:\${PEER_PORT}:\${LEADER_PORT}"
-    sed -i "s/#ENSEMBLE\${idx}/\${server}:\${PEER_PORT}:\${LEADER_PORT}/" /opt/zookeeper/conf/zoo.cfg
+    sed -i "s/#ENSEMBLE\${idx}/server.\${idx}=\${server}:\${PEER_PORT}:\${LEADER_PORT}/" /opt/zookeeper/conf/zoo.cfg
    let "idx=idx+1"
   done
 else
   echo "ENSEMBLE NOT SET"
 fi
 
+tee /opt/zookeeper/data/snapshots/myid << EOF
+\$MY_ID
+#myid file
+
+EOF
+
+cat /opt/zookeeper/conf/zoo.cfg
+
 /opt/zookeeper/bin/zkServer.sh start-foreground
+
 
 END
 
