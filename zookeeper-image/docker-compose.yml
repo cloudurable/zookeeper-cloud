@@ -1,22 +1,22 @@
 version: '3'
 services:
   zookeeper0:
-    image: "cloudurable/zookeeper-image:latest"
+    image: "cloudurable/zookeeper-image:0.2"
+    restart: always
     ports:
      - "2181:2181"
     environment:
      - ENSEMBLE=zookeeper0,zookeeper1,zookeeper2
      - MY_ID=1
-    entrypoint: /opt/zookeeper/bin/run.sh
   zookeeper1:
-    image: "cloudurable/zookeeper-image:latest"
+    image: "cloudurable/zookeeper-image:0.2"
+    restart: always
     environment:
      - ENSEMBLE=zookeeper0,zookeeper1,zookeeper2
      - MY_ID=2
-    entrypoint: /opt/zookeeper/bin/run.sh
   zookeeper2:
-    image: "cloudurable/zookeeper-image:latest"
+    image: "cloudurable/zookeeper-image:0.2"
+    restart: always
     environment:
      - ENSEMBLE=zookeeper0,zookeeper1,zookeeper2
      - MY_ID=3
-    entrypoint: /opt/zookeeper/bin/run.sh

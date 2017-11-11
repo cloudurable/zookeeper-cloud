@@ -25,7 +25,8 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/base-java-centos",
-        "tag": "latest"
+        "tag": "latest",
+        "force" : true 
       },
       "docker-push"
     ]
