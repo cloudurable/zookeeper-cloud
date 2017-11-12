@@ -33,6 +33,7 @@ syncLimit=2
 cnxTimeout=20000
 tickTime=5000
 
+
 #ENSEMBLE1
 #ENSEMBLE2
 #ENSEMBLE3
@@ -56,6 +57,11 @@ sed  -i  "s/initLimit=5/initLimit=\$ZOO_INIT_LIMIT/g" \$CFG_FILE
 sed  -i  "s/syncLimit=2/syncLimit=\$ZOO_SYNC_LIMIT/g" \$CFG_FILE
 sed  -i  "s/tickTime=5000/tickTime=\$ZOO_TICK_TIME/g" \$CFG_FILE
 sed  -i  "s/cnxTimeout=20000/cnxTimeout=\$ZOO_CNX_TIMEOUT/g" \$CFG_FILE
+
+sed  -i  "s/standaloneEnabled=true/standaloneEnabled=\$ZOO_STANDALONE_ENABLED/g" \$CFG_FILE
+sed  -i  "s/minSessionTimeout=24000/minSessionTimeout=\$ZOO_MIN_SESSION_TIMEOUT/g" \$CFG_FILE
+sed  -i  "s/maxSessionTimeout=60000/maxSessionTimeout=\$ZOO_MAX_SESSION_TIMEOUT/g" \$CFG_FILE
+
 
 idx=1
 if env | grep -q ^ENSEMBLE=
