@@ -46,8 +46,12 @@ tee opt/zookeeper/bin/run.sh << END
 set -e
 
 
-sed  -i  's/opt\/zookeeper/\/opt\/zookeeper/g' /opt/zookeeper/conf/zoo.cfg
-sed  -i  "s/clientPort=2181/clientPort=\$ZOO_CLIENT_PORT/g" /opt/zookeeper/conf/zoo.cfg
+export CFG_FILE="\$ZOOCFGDIR/\$ZOOCFG"
+echo "Modifying config file \$CFG_FILE"
+sed  -i  's/opt\/zookeeper/\/opt\/zookeeper/g' \$CFG_FILE
+sed  -i  "s/clientPort=2181/clientPort=\$ZOO_CLIENT_PORT/g" \$CFG_FILE
+sed  -i  "s/initLimit=5/initLimit=\$ZOO_INIT_LIMIT/g" \$CFG_FILE
+sed  -i  "s/syncLimit=2/syncLimit=\$ZOO_SYNC_LIMIT/g" \$CFG_FILE
 
 idx=1
 if env | grep -q ^ENSEMBLE=
