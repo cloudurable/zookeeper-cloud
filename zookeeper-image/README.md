@@ -258,17 +258,3 @@ docker ps -a | grep cloudurable/zookeeper-image | awk '{ print $1}' \
 docker images | grep cloudurable/zookeeper-image | awk '{ print $3}' \
     | xargs docker rmi -f
 ```
-
-//          "ENV EXPOSE 2181 2888 3888",
-
-```
-"ENV JMXLOCALONLY true",
-"ENV JMXDISABLE true",
-"ENV JMXPORT ''",
-"ENV JMXAUTH false",
-"ENV JMXSSL false",
-"ENV JMXLOG4J false",
-"ENV SERVER_JVMFLAGS ''",
-"ENV JVMFLAGS ''",
-
-```
