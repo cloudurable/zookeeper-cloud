@@ -1,8 +1,11 @@
 {
+  "variables": {
+    "docker-tag": "latest"
+  },
   "builders": [
     {
       "type": "docker",
-      "image": "cloudurable/base-java-centos:0.2",
+      "image": "cloudurable/base-java-centos:0.3",
       "commit": true,
       "changes": [
           "ENV ZOO_CLIENT_PORT 2181",
@@ -25,7 +28,16 @@
           "ENV ZOOCFGDIR /opt/zookeeper/conf",
           "ENV ZOOBINDIR /opt/zookeeper/bin",
           "ENV ZOOCFG zoo.cfg",
-          "ENTRYPOINT /opt/zookeeper/bin/run.sh"
+          "ENV JMXLOCALONLY true",
+          "ENV JMXDISABLE true",
+          "ENV JMXPORT ''",
+          "ENV JMXAUTH false",
+          "ENV JMXSSL false",
+          "ENV JMXLOG4J false",
+          "ENV SERVER_JVMFLAGS ''",
+          "ENV JVMFLAGS ''",
+          "ENTRYPOINT /opt/zookeeper/bin/run.sh",
+          "EXPOSE 2181 2888 3888"
         ]
     }
   ],
@@ -41,10 +53,9 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/zookeeper-image",
-        "tag": "0.2",
+        "tag": "{{user `docker-tag`}}",
         "force" : true
-      },
-      "docker-push"
+      }
     ]
   ]
 }

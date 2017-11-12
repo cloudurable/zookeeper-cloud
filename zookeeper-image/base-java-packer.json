@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "docker-tag": "0.3"
+  },
   "builders": [
     {
       "type": "docker",
@@ -19,14 +22,8 @@
       {
         "type": "docker-tag",
         "repository": "cloudurable/base-java-centos",
-        "tag": "0.2"
-      },
-      "docker-push",
-      {
-        "type": "docker-tag",
-        "repository": "cloudurable/base-java-centos",
-        "tag": "latest",
-        "force" : true 
+        "tag": "{{user `docker-tag`}}",
+        "force" : true
       },
       "docker-push"
     ]

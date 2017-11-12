@@ -2,4 +2,4 @@
 
 ./download.sh
 ./configure.sh
-packer build packer.json
+packer build -var 'docker-tag=latest' docker-packer.json
