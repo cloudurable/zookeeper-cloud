@@ -94,7 +94,13 @@ This above starts Zookeeper in [replicated mode](http://zookeeper.apache.org/doc
 
 
 ## Testing cluster
+
+### Four letter words against docker compose
 ```sh
+echo stat | nc localhost 2181
+echo stat | nc localhost 2182
+echo stat | nc localhost 2183
+
 echo stat | nc localhost 2181
 Zookeeper version: 3.4.11-37e277162d567b55a07d1755f0b31c32e93c01a0, built on 11/01/2017 18:06 GMT
 Clients:
@@ -109,6 +115,40 @@ Zxid: 0x0
 Mode: follower
 Node count: 4
 ```
+
+
+# netstat -anp on leader
+```
+netstat -anp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:45651           0.0.0.0:*               LISTEN      16/java             
+tcp        0      0 127.0.0.11:44925        0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:2181            0.0.0.0:*               LISTEN      16/java             
+tcp        0      0 172.18.0.2:2888         0.0.0.0:*               LISTEN      16/java              
+tcp        0      0 172.18.0.2:3888         0.0.0.0:*               LISTEN      16/java              
+tcp        0      0 172.18.0.2:2888         172.18.0.4:54354        ESTABLISHED 16/java  leader           
+tcp        0      0 172.18.0.2:53370        172.18.0.3:3888         ESTABLISHED 16/java  election           
+tcp        0      0 172.18.0.2:2888         172.18.0.3:39246        ESTABLISHED 16/java  leader            
+tcp        0      0 172.18.0.2:3888         172.18.0.4:47114        ESTABLISHED 16/java  election            
+udp        0      0 127.0.0.11:60998        0.0.0.0:*      
+```
+
+# netstat -anp on follower
+```
+netstat -anp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.11:39409        0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:40955           0.0.0.0:*               LISTEN      16/java             
+tcp        0      0 0.0.0.0:2181            0.0.0.0:*               LISTEN      16/java             
+tcp        0      0 172.18.0.3:3888         0.0.0.0:*               LISTEN      16/java             
+tcp        0      0 172.18.0.3:3888         172.18.0.2:53370        ESTABLISHED 16/java   election          
+tcp        0      0 172.18.0.3:39246        172.18.0.2:2888         ESTABLISHED 16/java   follow leader          
+tcp        0      0 172.18.0.3:3888         172.18.0.4:60166        ESTABLISHED 16/java   election           
+udp        0      0 127.0.0.11:33899        0.0.0.0:*           
+```
+
 
 The ZooKeeper config gets generated based on the environment variables that you specify by
 `/opt/zookeeper/bin/run.sh` using sed to edit the ZooKeeper config file.
