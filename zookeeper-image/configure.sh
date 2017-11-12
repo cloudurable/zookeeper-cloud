@@ -34,6 +34,14 @@ cnxTimeout=20000
 tickTime=5000
 
 
+minSessionTimeout=24000
+maxSessionTimeout=60000
+standaloneEnabled=true
+
+autopurge.purgeInterval=12
+autopurge.snapRetainCount=5
+
+
 #ENSEMBLE1
 #ENSEMBLE2
 #ENSEMBLE3
@@ -62,6 +70,25 @@ sed  -i  "s/standaloneEnabled=true/standaloneEnabled=\$ZOO_STANDALONE_ENABLED/g"
 sed  -i  "s/minSessionTimeout=24000/minSessionTimeout=\$ZOO_MIN_SESSION_TIMEOUT/g" \$CFG_FILE
 sed  -i  "s/maxSessionTimeout=60000/maxSessionTimeout=\$ZOO_MAX_SESSION_TIMEOUT/g" \$CFG_FILE
 
+echo "Modifying config file \$CFG_FILE for auto purge"
+sed  -i  "s/autopurge.purgeInterval=12/autopurge.purgeInterval=\$ZOO_AUTO_PURGE_INTERVAL/g" \$CFG_FILE
+echo "Modifying config file \$CFG_FILE for auto purge retain count"
+sed  -i  "s/autopurge.snapRetainCount=5/autopurge.snapRetainCount=\$ZOO_AUTO_PURGE_SNAP_RETAIN_COUNT/g" \$CFG_FILE
+
+echo "Modifying config file \$CFG_FILE for data dir locations"
+DATA_DIR=\$(echo \$ZOO_DATA_DIR | sed 's/\//\\\\\\//g')
+echo "Modifying config file \$CFG_FILE for data dir \$DATA_DIR"
+sed  -i  "s/dataDir=\/opt\/zookeeper\/data\/snapshots/dataDir=\$DATA_DIR/g" \$CFG_FILE
+DATA_LOG_DIR=\$(echo \$ZOO_DATA_LOG_DIR | sed 's/\//\\\\\\//g')
+echo "Modifying config file \$CFG_FILE for data log dir \$DATA_LOG_DIR"
+sed  -i  "s/dataLogDir=\/opt\/zookeeper\/data\/transactions/dataLogDir=\$DATA_LOG_DIR/g" \$CFG_FILE
+
+
+if [ "x$ZOO_CLIENT_PORT_ADDRESS" != "x" ]
+then
+  echo "Modifying config file \$CFG_FILE for client port address $ZOO_CLIENT_PORT_ADDRESS"
+  sed  -i  "s/#clientPortAddress=/clientPortAddress=\$ZOO_CLIENT_PORT_ADDRESS/g" \$CFG_FILE
+fi
 
 idx=1
 if env | grep -q ^ENSEMBLE=
@@ -83,9 +110,8 @@ tee /opt/zookeeper/data/snapshots/myid << EOF
 
 EOF
 
-cat /opt/zookeeper/conf/zoo.cfg
-
-/opt/zookeeper/bin/zkServer.sh start-foreground
+cat \$CFG_FILE
+\$ZOOBINDIR/zkServer.sh start-foreground
 
 
 END
