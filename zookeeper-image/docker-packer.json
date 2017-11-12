@@ -56,7 +56,8 @@
         "repository": "cloudurable/zookeeper-image",
         "tag": "{{user `docker-tag`}}",
         "force" : true
-      }
+      },
+      "docker-push"
     ]
   ]
 }
