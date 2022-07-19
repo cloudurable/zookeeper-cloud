@@ -3,8 +3,8 @@
 set -e
 export MIRROR=http://supergsego.com
 export MVN_URL=http://repo1.maven.org/maven2
-export VERSION=3.4.11
-export LOGBACK_VERSION=1.2.3
+export VERSION=3.7.1
+export LOGBACK_VERSION=1.2.11
 export LOGBACK_FILE="zookeeper-src/lib/logback-classic-$LOGBACK_VERSION.jar"
 
 
