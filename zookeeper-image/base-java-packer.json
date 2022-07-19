@@ -1,11 +1,11 @@
 {
   "variables": {
-    "docker-tag": "0.3"
+    "docker-tag": "0.4"
   },
   "builders": [
     {
       "type": "docker",
-      "image": "centos:7.4.1708",
+      "image": "centos:8.4.2105",
       "commit": true
     }
   ],

@@ -5,9 +5,10 @@
   "builders": [
     {
       "type": "docker",
-      "image": "cloudurable/base-java-centos:0.3",
+      "image": "cloudurable/base-java-centos:0.4",
       "commit": true,
       "changes": [
+          "ENV ZOO_4LW_WHITELIST *",
           "ENV ZOO_CLIENT_PORT 2181",
           "ENV ZOO_PEER_PORT 2888",
           "ENV ZOO_LEADER_PORT 3888",

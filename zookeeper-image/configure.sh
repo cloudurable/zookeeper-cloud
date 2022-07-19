@@ -41,6 +41,7 @@ standaloneEnabled=true
 autopurge.purgeInterval=12
 autopurge.snapRetainCount=5
 
+4lw.commands.whitelist=*
 
 #ENSEMBLE1
 #ENSEMBLE2
@@ -65,10 +66,12 @@ sed  -i  "s/initLimit=5/initLimit=\$ZOO_INIT_LIMIT/g" \$CFG_FILE
 sed  -i  "s/syncLimit=2/syncLimit=\$ZOO_SYNC_LIMIT/g" \$CFG_FILE
 sed  -i  "s/tickTime=5000/tickTime=\$ZOO_TICK_TIME/g" \$CFG_FILE
 sed  -i  "s/cnxTimeout=20000/cnxTimeout=\$ZOO_CNX_TIMEOUT/g" \$CFG_FILE
+sed  -i  "s/4lw.commands.whitelist=*/4lw.commands.whitelist=\$ZOO_4LW_WHITELIST/g" \$CFG_FILE
 
 sed  -i  "s/standaloneEnabled=true/standaloneEnabled=\$ZOO_STANDALONE_ENABLED/g" \$CFG_FILE
 sed  -i  "s/minSessionTimeout=24000/minSessionTimeout=\$ZOO_MIN_SESSION_TIMEOUT/g" \$CFG_FILE
 sed  -i  "s/maxSessionTimeout=60000/maxSessionTimeout=\$ZOO_MAX_SESSION_TIMEOUT/g" \$CFG_FILE
+
 
 echo "Modifying config file \$CFG_FILE for auto purge"
 sed  -i  "s/autopurge.purgeInterval=12/autopurge.purgeInterval=\$ZOO_AUTO_PURGE_INTERVAL/g" \$CFG_FILE
